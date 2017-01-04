@@ -83,3 +83,24 @@ body {
 .main .page-header {
   margin-top: 0;
 }
+
+.main .nav-tabs>li {
+  font-size: 18px;
+}
+
+.main .nav-tabs>li.active {
+  font-weight: bold;
+}
+.main .tab-content {
+  border: 1px solid #ddd;
+  min-height: 80vh;
+  border-top: 0px;
+}
+
+.main .tab-content .tab-pane {
+  overflow: scroll;
+}
+
+.m-t-20 {
+  margin-top: 20px !important;
+}
