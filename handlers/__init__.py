@@ -36,3 +36,4 @@ class DataSocketHandler(websocket.WebSocketHandler):
     def process_data(self):
         yield self.view.get_data_summary(self.send)
         yield self.view.describe_columns(self.send)
+        yield self.view.plot_columns(self.send)

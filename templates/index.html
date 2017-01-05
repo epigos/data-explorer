@@ -76,7 +76,56 @@
                       </div>
                       <div id="collapse_{[col]}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="{[col]}">
                         <div class="panel-body">
-                          {[summary|json]}
+                          <div class='col-sm-3'>
+                            <table class='table table-condensed summary-table'>
+                              <caption>Description</caption>
+                              <tbody>
+                                <tr ng-if="summary.dtype">
+                                  <td class='summary-label'>dtype:</td>
+                                  <td class='summary-value text-right' ng-bind='summary.dtype'></td>
+                                </tr>
+                                <tr ng-if="summary.count">
+                                  <td class='summary-label'>count:</td>
+                                  <td class='summary-value text-right' ng-bind='summary.count'></td>
+                                </tr>
+                                <tr ng-if="summary.num_unique">
+                                  <td class='summary-label'>num_unique:</td>
+                                  <td class='summary-value text-right' ng-bind='summary.unique'></td>
+                                </tr>
+                                <tr ng-if="summary.num_undefined">
+                                  <td class='summary-label'>num_undefined:</td>
+                                  <td class='summary-value text-right' ng-bind='summary.num_undefined'></td>
+                                </tr>
+                                <tr ng-if="summary.unique">
+                                  <td class='summary-label'>num_unique:</td>
+                                  <td class='summary-value text-right' ng-bind='summary.unique'></td>
+                                </tr>
+                                <tr ng-if="summary.min">
+                                  <td class='summary-label'>min:</td>
+                                  <td class='summary-value text-right' ng-bind='summary.min'></td>
+                                </tr>
+                                <tr ng-if="summary.max">
+                                  <td class='summary-label'>max:</td>
+                                  <td class='summary-value text-right' ng-bind='summary.max'></td>
+                                </tr>
+                                <tr ng-if="summary.median">
+                                  <td class='summary-label'>median:</td>
+                                  <td class='summary-value text-right' ng-bind='summary.median'></td>
+                                </tr>
+                                <tr ng-if="summary.mean">
+                                  <td class='summary-label'>mean:</td>
+                                  <td class='summary-value text-right' ng-bind='summary.mean'></td>
+                                </tr>
+                                <tr ng-if="summary.std">
+                                  <td class='summary-label'>std:</td>
+                                  <td class='summary-value text-right' ng-bind='summary.std'></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class='col-sm-9'>
+
+                          </div>
                         </div>
                       </div>
                     </div>

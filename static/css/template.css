@@ -104,3 +104,10 @@ body {
 .m-t-20 {
   margin-top: 20px !important;
 }
+.summary-table>tbody>tr>td {
+  padding:2px;
+}
+table .summary-value {
+  font-weight: 700;
+}
+
