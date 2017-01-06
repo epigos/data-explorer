@@ -8,13 +8,13 @@
     $interpolateProvider.endSymbol(']}');
   });
 
-  app.controller('DashCtrl', function($scope, SocketService){
+  app.controller('DashCtrl', function($scope, $sce, SocketService){
     $scope.vm = {};
 
     // runs when the socket is opened
     SocketService.onOpen(function(){
       console.log('Socket Established');
-      SocketService.send({message: 'ready'});
+      SocketService.send({message: 'summary'});
     });
 
     // runs when the socket receives message
@@ -25,6 +25,9 @@
       if (data.columns) {
         $scope.vm.columns = data.columns;
       }
+      if (data.plots) {
+        $scope.vm.plots = data.plots;
+      }
       console.log(data);
     });
 
@@ -33,11 +36,40 @@
       console.error('Socket closed... will try to reconnect in 5 seconds');
     });
 
+    $scope.getPlot = function(column) {
+      if ($scope.vm.plots) {
+        return $scope.vm.plots[column];
+      }
+    }
+
     $scope.viewColumn = function(col){
       $scope.vm.col = col;
       SocketService.send({column: col});
+      scrollTo(col);
     }
 
+    function scrollTo(column) {
+      var target = $('#' + column);
+      $("html, body").animate({ scrollTop:  $(target[0]).offset().top - 60}, 1000);
+    }
+
+  });
+  app.directive('drawPlot', function() {
+    return {
+      scope: {
+        plots: '=',
+      },
+      link: function(scope, el, attrs) {
+        scope.$watch('plots', function(newValue, oldValue) {
+          if (newValue && newValue !== oldValue) {
+            angular.forEach(scope.plots, function(value, key) {
+              $('table #plot_' + key).empty();
+              mpld3.draw_figure('plot_' + key, value);
+            });
+          }
+        });
+      }
+    }
   });
   app.factory('SocketService', ['$q', '$rootScope', function($q, $rootScope) {
     var buffer             = [];

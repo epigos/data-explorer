@@ -43,5 +43,5 @@ class DataExplorer(object):
 
 if __name__ == "__main__":
     dte = DataExplorer()
-    dte.read_csv('hr.csv')
+    dte.read_csv('tweets.csv')
     dte.start()

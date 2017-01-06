@@ -1,25 +1,18 @@
 from tornado.concurrent import return_future
 from tornado import escape
 
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 
 import numpy as np
-import matplotlib
 
-matplotlib.use('Agg')
-
-import matplotlib.pyplot as plt
-import mpld3
-
+from .plots import SummaryPlot
 
 __all__ = ['BaseView', ]
 
+_BaseView = namedtuple('BaseView', ('data', 'config'))
 
-class BaseView(object):
 
-    def __init__(self, data, config):
-        self.data = data
-        self.config = config
+class BaseView(_BaseView):
 
     @return_future
     def get_data_summary(self, callback=None):
@@ -44,7 +37,7 @@ class BaseView(object):
     def plot_columns(self, callback=None):
         plots = OrderedDict()
         for column in self.data.columns:
-            plots[column] = self._plot_column(column)
+            plots[column] = escape.json_decode(self._plot_column(column))
         callback({'plots': plots})
 
     def _get_column_description(self, column):
@@ -70,17 +63,16 @@ class BaseView(object):
 
     def _plot_column(self, column):
         plot = None
+        fig = None
+
+        summary_plot = SummaryPlot(self.data[column])
+
         dtype = self.data[column].dtype
         if (dtype == np.float64 or dtype == np.int64):  # numeric dtype
-            plot = self.build_box_plot(self.data[column])
+            plot, fig = summary_plot.generate_boxplot()
         else:  # object, datetime e.t.c
-            pass
+            plot, fig = summary_plot.generate_barh()
+
+        # cleanup memory
+        summary_plot.destory_fig(fig)
         return plot
-
-    def build_box_plot(self, data):
-        fig, ax = plt.subplots()
-        data.plot(kind='box', ax=ax)
-        return escape.json_encode(mpld3.fig_to_dict(fig))
-
-    def build_barh_plot(self, data):
-        pass

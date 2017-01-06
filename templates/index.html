@@ -65,7 +65,7 @@
             <!-- Tab panes -->
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane fade in active" id="summary">
-                <div class='col-sm-12 m-t-20'>
+                <div class='col-sm-12 m-t-20' draw-plot plots="vm.plots">
                   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-default" ng-repeat="(col, summary) in vm.columns">
                       <div class="panel-heading" role="tab" id="{[col]}">
@@ -123,8 +123,21 @@
                               </tbody>
                             </table>
                           </div>
-                          <div class='col-sm-9'>
-
+                          <div class='col-sm-9 text-center'>
+                          <table class="table">
+                            <caption ng-if="summary.dtype !='object'">Distribution Of Values</caption>
+                            <caption ng-if="summary.dtype =='object'">Frequent Items</caption>
+                            <tbody>
+                              <tr>
+                                <td id='plot_{[col]}' class="plot-container">
+                                  <div class="loader">
+                                    <img src="{{ static_url('img/spin.svg') }}" />
+                                    <p>Rendering plot...</p>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                           </div>
                         </div>
                       </div>
@@ -148,7 +161,7 @@
     <script src="{{ static_url("js/bootstrap.min.js") }}" type="text/javascript"></script>
     <script src="{{ static_url("js/angular.min.js") }}" type="text/javascript"></script>
     <script src="{{ static_url("js/d3.v3.min.js") }}" type="text/javascript"></script>
-    <script src="{{ static_url("js/mpld3.v0.1.js") }}" type="text/javascript"></script>
+    <script src="{{ static_url("js/mpld3.v0.3.js") }}" type="text/javascript"></script>
     <script src="{{ static_url("js/app.js") }}" type="text/javascript"></script>
   </body>
 </html>
