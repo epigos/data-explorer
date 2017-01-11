@@ -7,7 +7,6 @@ matplotlib.use('Agg')
 
 import matplotlib.pyplot as plt  # NOQA
 import mpld3  # NOQA
-from mpld3 import plugins
 
 from .utils import smart_truncate  # NOQA
 
@@ -27,7 +26,7 @@ class SummaryPlot(BasePlot):
     """docstring for Summary Plot"""
 
     def generate_boxplot(self):
-        color = dict(boxes='DarkGreen', whiskers='DarkOrange',
+        color = dict(boxes='#FAA43A', whiskers='DarkOrange',
                      medians='DarkBlue', caps='Gray')
 
         fig, ax = plt.subplots()
@@ -51,7 +50,7 @@ class SummaryPlot(BasePlot):
         fig, ax = plt.subplots()
         values = self.data.value_counts()[:10]
         values.sort_values(ascending=True, inplace=True)
-        values.plot.barh(ax=ax, figsize=(8, 4), color='DarkGreen', alpha=0.5)
+        values.plot.barh(ax=ax, figsize=(8, 4), color='#FAA43A', alpha=0.5)
 
         # Truncate long tick labels
         labels = [smart_truncate(l.get_text(), 30)

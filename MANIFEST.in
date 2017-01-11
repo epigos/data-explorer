@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+include AUTHORS
+recursive-include dexplorer *.py
+recursive-include dexplorer/static *
+recursive-include dexplorer/template *
+recursive-include test *.py

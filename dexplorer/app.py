@@ -9,9 +9,9 @@ import tornado.autoreload
 
 from tornado.options import options
 
-from handlers import MainHandler, DataSocketHandler
-from settings import settings, template_dir, static_dir
-from utils import read_csv
+from dexplorer.handlers import MainHandler, DataSocketHandler
+from dexplorer.settings import settings, template_dir, static_dir
+from dexplorer.utils import read_csv
 
 
 class DataExplorer(object):
@@ -23,7 +23,7 @@ class DataExplorer(object):
     def read_csv(self, filename, **kwargs):
         self.data = read_csv(filename, **kwargs)
 
-    def start(self):
+    def make_app(self):
         tornado.options.parse_command_line()
         handlers = [
             (r"/", MainHandler),
@@ -31,7 +31,10 @@ class DataExplorer(object):
                 dict(data=self.data, config=self.config)
              )
         ]
-        app = tornado.web.Application(handlers, **settings)
+        return tornado.web.Application(handlers, **settings)
+
+    def start(self):
+        app = self.make_app()
         http_server = tornado.httpserver.HTTPServer(app)
         logging.info("Listening on port %s" % options.port)
         http_server.listen(options.port)
@@ -43,5 +46,5 @@ class DataExplorer(object):
 
 if __name__ == "__main__":
     dte = DataExplorer()
-    dte.read_csv('tweets.csv')
+    dte.read_csv('/Users/philip/devel/open_source/data-explorer/hr.csv')
     dte.start()
