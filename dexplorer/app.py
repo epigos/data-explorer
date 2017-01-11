@@ -9,9 +9,9 @@ import tornado.autoreload
 
 from tornado.options import options
 
-from dexplorer.handlers import MainHandler, DataSocketHandler
-from dexplorer.settings import settings, template_dir, static_dir
-from dexplorer.utils import read_csv
+from .handlers import MainHandler, DataSocketHandler
+from .settings import settings, template_dir, static_dir
+from .utils import read_csv
 
 
 class DataExplorer(object):
@@ -36,13 +36,9 @@ class DataExplorer(object):
     def start(self):
         app = self.make_app()
         http_server = tornado.httpserver.HTTPServer(app)
-        logging.info("Listening on port %s" % options.port)
+        logging.info("Listening on http://localhost:{}/".format(options.port))
         http_server.listen(options.port)
         tornado.autoreload.start()
         tornado.autoreload.watch(os.path.join(template_dir, 'index.html'))
         tornado.autoreload.watch(os.path.join(static_dir, 'js/app.js'))
         tornado.ioloop.IOLoop.instance().start()
-
-
-if __name__ == "__main__":
-    pass

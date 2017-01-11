@@ -1,11 +1,19 @@
-# Data Exploration With Matplotlib and D3.js
+# Data Exploration with Matplotlib and D3.js
+
+[![Build Status](https://travis-ci.org/epigos/data-explorer.png)](https://travis-ci.org/epigos/data-explorer)
 
 This is a small library built with Tornado, Matplotlib and Pandas to summarize and visualize any datasource in the browser.
+
+Demo
+------------
+
+![Demo](dexplorer/static/img/demo.png)
+
 
 Installation
 ------------
 
-To install, simply: ::
+To install, simply:
 
     $ pip install data-explorer
 
@@ -40,4 +48,4 @@ Running the Tests
 
 To run tests
 
-    python -m tornado.testing tests/functests.py
+    python -m tornado.testing tests.functests
