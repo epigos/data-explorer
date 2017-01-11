@@ -45,6 +45,4 @@ class DataExplorer(object):
 
 
 if __name__ == "__main__":
-    dte = DataExplorer()
-    dte.read_csv('/Users/philip/devel/open_source/data-explorer/hr.csv')
-    dte.start()
+    pass
