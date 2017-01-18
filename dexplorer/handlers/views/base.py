@@ -6,6 +6,7 @@ from collections import OrderedDict, namedtuple
 import numpy as np
 
 from .plots import SummaryPlot
+from .table import Table
 
 __all__ = ['BaseView', ]
 
@@ -16,6 +17,10 @@ class BaseView(_BaseView):
 
     @return_future
     def get_data_summary(self, callback=None):
+        """
+        Returns data frame shape
+        """
+
         rows, columns = self.data.shape
         results = {
             'summary': {
@@ -39,6 +44,16 @@ class BaseView(_BaseView):
         for column in self.data.columns:
             plots[column] = escape.json_decode(self._plot_column(column))
         callback({'plots': plots})
+
+    @return_future
+    def get_data_table(self, params, callback=None):
+        table_view = Table(self.data)
+        table = escape.json_decode(
+            table_view.paginate(
+                params.get('start', 0), params.get('limit', 100)
+            )
+        )
+        callback({'table': table})
 
     def _get_column_description(self, column):
         desc = escape.json_decode(

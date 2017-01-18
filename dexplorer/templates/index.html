@@ -45,7 +45,6 @@
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
           </ul>
-
           <strong>Data Columns</strong>
           <ul class="nav nav-sidebar columns" style="margin-left: 0px;">
             <li ng-repeat="(col, summary) in vm.columns" ng-class="{active: vm.col==col}" title="View Column Details">
@@ -58,8 +57,8 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
               <li role="presentation" class="active"><a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a></li>
-              <li role="presentation"><a href="#table" aria-controls="table" role="tab" data-toggle="tab">Table</a></li>
-              <li role="presentation"><a href="#plots" aria-controls="plots" role="tab" data-toggle="tab">Plots</a></li>
+              <li role="presentation"><a href="#table" aria-controls="table" role="tab" data-toggle="tab" ng-click="loadTable()">Table</a></li>
+              <li role="presentation"><a href="#plots" aria-controls="plots" role="tab" data-toggle="tab" ng-click="loadPlots()">Plots</a></li>
             </ul>
 
             <!-- Tab panes -->
@@ -145,11 +144,30 @@
                   </div>
                 </div>
               </div>
-              <div role="tabpanel" class="tab-pane fade" id="table">
-
+              <div role="tabpanel" class="tab-pane fade" id="table" scroll='loadMore()'>
+                <div class="table-responsive">
+                  <div class="loader" ng-show="vm.table.loading">
+                    <img src="{{ static_url('img/spin.svg') }}" />
+                    <p>Loading more rows...</p>
+                  </div>
+                  <table class="table table-hover table-bordered">
+                    <caption>Showing <b>0</b> to <b ng-bind="vm.table.start"></b> records</caption>
+                    <thead>
+                      <tr>
+                        <th ng-repeat="col in vm.table.columns" >
+                          <a href="javascripts:void(0)" ng-bind="col" title="view column" ng-click="loadColumn(col)"></a>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="row in vm.table.data track by $index">
+                        <td ng-repeat='value in row track by $index' ng-bind="value"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <div role="tabpanel" class="tab-pane fade" id="plots">
-
               </div>
             </div>
           </div>

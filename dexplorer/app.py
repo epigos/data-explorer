@@ -40,5 +40,5 @@ class DataExplorer(object):
         http_server.listen(options.port)
         tornado.autoreload.start()
         tornado.autoreload.watch(os.path.join(template_dir, 'index.html'))
-        tornado.autoreload.watch(os.path.join(static_dir, 'js/app.js'))
+        tornado.autoreload.watch(os.path.join(static_dir, '*/*'))
         tornado.ioloop.IOLoop.instance().start()

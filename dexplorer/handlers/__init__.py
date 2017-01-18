@@ -29,7 +29,9 @@ class DataSocketHandler(websocket.WebSocketHandler):
         if 'summary' in data.get('message', ''):
             self.process_summary_data()
         if 'table' in data.get('message', ''):
-            self.process_table_data()
+            self.process_table_data(data)
+        if 'plots' in data.get('message', ''):
+            self.process_plot_data(data)
 
     def send(self, data):
         self.write_message(data)
@@ -41,5 +43,9 @@ class DataSocketHandler(websocket.WebSocketHandler):
         yield self.view.plot_columns(self.send)
 
     @gen.coroutine
-    def process_table_data(self):
+    def process_table_data(self, params):
+        yield self.view.get_data_table(params, self.send)
+
+    @gen.coroutine
+    def process_plot_data(self, params):
         pass

@@ -76,8 +76,8 @@ body {
 }
 @media (min-width: 768px) {
   .main {
-    padding-right: 40px;
-    padding-left: 40px;
+    padding-right: 30px;
+    padding-left: 30px;
   }
 }
 .main .page-header {
@@ -91,9 +91,11 @@ body {
 .main .nav-tabs>li.active {
   font-weight: bold;
 }
+
 .main .tab-content {
   border: 1px solid #ddd;
-  min-height: 80vh;
+  max-height: 80vh;
+  overflow:scroll;
   border-top: 0px;
 }
 
@@ -113,3 +115,9 @@ table td .loader {
   margin: 10% auto;
 }
 
+#table .loader {
+  text-align: center;
+  position: absolute;
+  bottom: 50px;
+  width: 90%;
+}

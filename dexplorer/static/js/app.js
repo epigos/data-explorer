@@ -8,13 +8,16 @@
     $interpolateProvider.endSymbol(']}');
   });
 
-  app.controller('DashCtrl', function($scope, $sce, SocketService){
+  app.controller('DashCtrl', function($scope, $sce, $location, $window, SocketService){
     $scope.vm = {};
+    var pageSize = 100;
 
     // runs when the socket is opened
     SocketService.onOpen(function(){
       console.log('Socket Established');
       SocketService.send({message: 'summary'});
+      SocketService.send({message: 'table'});
+      $scope.vm.table = {data: [], start:0, loading: true};
     });
 
     // runs when the socket receives message
@@ -27,6 +30,12 @@
       }
       if (data.plots) {
         $scope.vm.plots = data.plots;
+      }
+      if (data.table) {
+        $scope.vm.table.columns = data.table.columns || [];
+        $scope.vm.table.data = $scope.vm.table.data.concat(data.table.data);
+        $scope.vm.table.start = $scope.vm.table.data.length || 0;
+        $scope.vm.table.loading = false;
       }
       console.log(data);
     });
@@ -48,6 +57,30 @@
       scrollTo(col);
     }
 
+    $scope.loadColumn = function(col){
+      $scope.vm.col = col;
+      SocketService.send({column: col});
+      $location.hash(col);
+    }
+
+    $scope.loadTable = function() {
+      $location.hash('table');
+    }
+
+    $scope.loadMore = function() {
+      $scope.vm.table.loading = true;
+      $scope.$apply();
+      SocketService.send({
+        message: 'table',
+        start: $scope.vm.table.start,
+        limit: $scope.vm.table.start + pageSize
+       })
+    }
+
+    $scope.loadPlots = function() {
+      $location.hash('plots');
+    }
+
     function scrollTo(column) {
       var target = $('#' + column);
       $("html, body").animate({ scrollTop:  $(target[0]).offset().top - 60}, 1000);
@@ -66,6 +99,21 @@
               $('table #plot_' + key).empty();
               mpld3.draw_figure('plot_' + key, value);
             });
+          }
+        });
+      }
+    }
+  });
+  app.directive('scroll', function() {
+    return {
+      scope: {
+        scroll: '&',
+      },
+      link: function(scope, el, attrs) {
+        var $el = $(el).parent('div.tab-content');
+        angular.element($el).bind("scroll", function() {
+          if ($el[0].scrollTop + $el[0].offsetHeight >= $el[0].scrollHeight) {
+            scope.scroll();
           }
         });
       }
