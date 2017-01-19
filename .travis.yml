@@ -1,10 +1,19 @@
 language: python
 cache: pip
 python:
-  - 2.7
-  - 3.4
-  - 3.5
+- 2.7
+- 3.4
+- 3.5
 install:
-  - pip install -r requirements.txt
+- pip install -r requirements.txt
 script:
-  - python -m tornado.testing tests.functests
+- python -m tornado.testing tests.functests
+deploy:
+  provider: pypi
+  user: epigos
+  password:
+    secure: J6gNqgCzctU5L/ogpfXqNv8kRtdzncOd+/9SaphXxoxRrJxl6Wduted2WaDRHoABpjAXCSslVWMgXAwfc0NWBDLZx7eVrtuCvqpgcJtN3Ulz65ZQxyJWM1YsdOkzN/ZX1IxodGmylsjOB131t9EKTGD/MeKxdGEW4ozZWbglG9OVzjnWsl1H+zu3UWsXRMxxfJ7Tl7ixd6ygSJ11McEY9LtGIUbYEWiljjy0141sga7NLd5ZUXkioJrHUQDl+EyCzkbJjuN1PfEYuBBwAfIMoPLXltfABAntPGKiddpfq7/U25kiXMf31NTDNG2ZaeAOO3vBJGxTR5eW7x4n2M6sn8RhnziFxNekxhqq/DStUWR8W9v2uxUSnx++qakQRztLBN86tcf9E0STOQcdzd2R49xNCqNmWW/C+peFIpmACzV4yrzA4ppIVI0DCceaBgSNI9fqI0hbWCfpRdB1SI6VkZZ1N1cPFKWsZdSuriR2Thgqu5Yt+dIIGWHDGl3PsRZCPtEteue8zat3CzappPn62K6oTRzYj4JJd3q6b8PadNX8bcni7VY/RUVWmNm59Bkq3bcnbno7rnuABKWIjVHxflM2xT1D96wkAasLJ3cQqD2Z2PqhYwWPs0zo3MaZE08l1nn/x6JEuI7+tDGNcP3XXIu6vqR2iFnqrbYzo8wUg3Q=
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: epigos/data-explorer

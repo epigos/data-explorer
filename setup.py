@@ -12,7 +12,7 @@ with open(os.path.join(os.path.dirname(__file__), 'requirements.txt'),
 
 
 setup(
-    name="data-explorer",
+    name="dexplorer",
     version='0.1.1',
     description="View, summarize and visualize data in the browser",
     author="Philip Adzanoukpe",
@@ -21,7 +21,8 @@ setup(
     license="MIT License",
     long_description=readme_content,
     packages=find_packages(),
-    package_data={'dexplorer': ['static/*/*', 'templates/*']},
+    package_data={'dexplorer': ['static/*/*', 'templates/*',
+                                'requirements.txt', 'README.md']},
     include_package_data=True,
     install_requires=install_requires,
     entry_points={
@@ -30,10 +31,9 @@ setup(
     },
     classifiers=[
         'Intended Audience :: Developers',
-        'Development Status :: 1 - Alpha',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.5',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
-        'Topic :: Software Development :: Libraries :: Python Modules'
+        'Topic :: Software Development :: Libraries :: Python Modules',
     ]
 )

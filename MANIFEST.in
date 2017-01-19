@@ -1,7 +1,8 @@
 include README.md
 include LICENSE
 include AUTHORS
+include requirements.txt
 recursive-include dexplorer *.py
-recursive-include dexplorer/static *
-recursive-include dexplorer/template *
-recursive-include test *.py
+recursive-include dexplorer/static/*/ *
+recursive-include dexplorer/templates *
+recursive-include tests *.py
